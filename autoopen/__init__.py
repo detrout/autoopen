@@ -44,7 +44,10 @@ import os
 import gzip
 import bz2
 import types
-import urllib2
+try:
+    from urllib.parse import urlparse
+except ImportError:
+    from urlparse import urlparse
 
 def isfilelike(file_ref, mode):
     """Does file_ref have the core file operations?
@@ -69,7 +72,7 @@ def isurllike(file_ref, mode):
     (AKA does it start with protocol:// ?)
     """
     #what if mode is 'w'?
-    parsed = urllib2.urlparse.urlparse(file_ref)
+    parsed = urlparse(file_ref)
     schema, netloc, path, params, query, fragment = parsed
 
     return len(schema) > 0
